@@ -17,7 +17,7 @@ Before starting, you should be **proficient** with the following C language topi
 | 指针与地址 | 熟练 | 指针算术、函数指针、指向结构体的指针、二级指针 |
 | 结构体与枚举 | 熟练 | struct, enum, typedef, 位域(bit-field) |
 | 回调函数 | 掌握 | 函数指针作为参数、HAL库回调模式 |
-| 位操作 | 熟练 | &, \|, ^, ~, <<, >>, 寄存器读写 |
+| 位操作 | 熟练 | &, \|, ^, ~, <<, >>（用于标志位判断、掩码等，本项目主线用 HAL，不要求手写寄存器级代码） |
 | volatile关键字 | 理解 | 为什么中断和硬件寄存器需要volatile |
 | 预处理器 | 了解 | #define, #ifdef, 宏函数, 条件编译 |
 | 链接脚本基础 | 了解 | .ld文件的作用、内存分区(FLASH/SRAM)概念 |
@@ -133,34 +133,29 @@ The following are not required but will significantly improve your learning effi
 
 Before Day 1, try these exercises. If you can complete most of them independently, you are ready:
 
-### 检查1：C语言中级
+### 检查1：C语言中级与 HAL 抽象理解
 ```c
-// 请理解以下代码的每一行，包括位操作和volatile的含义
-#include <stdint.h>
+// 请理解以下代码，体会 HAL 库是如何把"操作硬件"变得好读的
+#include "stm32f4xx_hal.h"   // STM32 HAL 库头文件
 
-// 模拟STM32的寄存器操作
-volatile uint32_t *GPIOA_MODER = (uint32_t *)0x40020000;  // GPIOA模式寄存器
-volatile uint32_t *GPIOA_ODR   = (uint32_t *)0x40020014;  // GPIOA输出数据寄存器
+// 声明一个 LED 对应的 GPIO 引脚和端口（HAL 用结构体描述，不直接碰地址）
+GPIO_TypeDef *LED_PORT = GPIOA;
+uint16_t LED_PIN = GPIO_PIN_5;   // PA5
 
-typedef enum {
-    LED_RED   = 0,   // 第0位
-    LED_GREEN = 1,   // 第1位
-    LED_BLUE  = 2,   // 第2位
-} LED_TypeDef;
-
-void led_on(LED_TypeDef led) {
-    *GPIOA_ODR |= (1 << led);     // 将对应位置1
+// HAL 库提供的封装函数：点亮 / 熄灭 / 翻转一个引脚
+void led_on(void) {
+    HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_SET);     // 输出高电平
 }
 
-void led_off(LED_TypeDef led) {
-    *GPIOA_ODR &= ~(1 << led);    // 将对应位清0
+void led_off(void) {
+    HAL_GPIO_WritePin(LED_PORT, LED_PIN, GPIO_PIN_RESET);   // 输出低电平
 }
 
-void led_toggle(LED_TypeDef led) {
-    *GPIOA_ODR ^= (1 << led);     // 翻转对应位
+void led_toggle(void) {
+    HAL_GPIO_TogglePin(LED_PORT, LED_PIN);                  // 翻转电平
 }
 
-// 回调函数示例
+// 回调函数示例（HAL 库大量使用回调，比如接收完一组数据后通知你）
 typedef void (*EventCallback)(int event_type);
 
 void register_callback(EventCallback cb) {
@@ -168,44 +163,41 @@ void register_callback(EventCallback cb) {
 }
 
 // 问题：
-// 1. 为什么GPIOA_MODER和GPIOA_ODR需要volatile修饰？
-// 2. *GPIOA_ODR |= (1 << 2); 这行代码做了什么？用二进制表示。
-// 3. 如果led = 3, ~(1 << 3) 的值是多少（用二进制表示）？
-// 4. EventCallback是什么类型？如何使用它？
+// 1. HAL_GPIO_WritePin 为什么要传"端口 + 引脚"两个参数，而不是直接写一个地址？
+//    （提示：想想"建筑图纸 vs 直接砌墙"——HAL 给你的是图纸上的符号，不是砖头的坐标。）
+// 2. 如果不用 HAL，直接操作硬件需要做什么？为什么 HAL 这一层让代码更好读、更好移植？
+// 3. EventCallback 是什么类型？在中断里调用 cb(...) 和在主循环里调用有什么不同？
 ```
 
-### 检查2：结构体与位域
+> **为什么这样学 | Why learn it this way:**
+> 早期嵌入式开发要直接往芯片寄存器地址（一串十六进制数字）里写值来控制引脚，既难读也容易写错，换个芯片就得全改。HAL（Hardware Abstraction Layer，硬件抽象层）把这些细节包成 `HAL_GPIO_WritePin(...)` 这样的函数——你只说"点亮 PA5"，不用管 PA5 在芯片里对应哪个地址、哪一位。本项目主线全程用 HAL，所以前置检查也只要求理解 HAL 的思路，不要求背寄存器地址。位操作（`& | ~ <<`）作为 C 语言基础知识仍然要会（见上面 C 语言知识点表），但不需要会手写寄存器级代码。
+
+### 检查2：结构体与 HAL 的配置思路
 ```c
-// 请理解以下代码，这是STM32 HAL库中常见的编程模式
-#include <stdint.h>
+// 请理解以下代码，这是 STM32 HAL 库里"用一个结构体描述外设配置"的常见模式
+#include "stm32f4xx_hal.h"
 
-// 使用位域定义寄存器位
-typedef struct {
-    uint32_t MODE0  : 2;   // 占2位
-    uint32_t MODE1  : 2;
-    uint32_t MODE2  : 2;
-    uint32_t MODE3  : 2;
-    uint32_t        : 24;  // 保留位
-} GPIO_ModeReg;
+// HAL 用一个结构体把 GPIO 的所有配置项打包在一起
+GPIO_InitTypeDef gpio_init = {0};
 
-// 使用union实现寄存器的整体/位级访问
-typedef union {
-    uint32_t      word;    // 整体32位访问
-    GPIO_ModeReg  bits;    // 按位域访问
-} GPIO_ModeRegister;
+gpio_init.Pin   = GPIO_PIN_5;          // 哪个引脚：PA5
+gpio_init.Mode  = GPIO_MODE_OUTPUT_PP; // 模式：推挽输出（能输出高低电平）
+gpio_init.Pull  = GPIO_NOPULL;         // 上下拉：不接
+gpio_init.Speed = GPIO_SPEED_FREQ_LOW; // 速度：低速足够（点 LED 不需要快）
 
-void example(void) {
-    GPIO_ModeRegister reg;
-    reg.word = 0;            // 清零所有位
-    reg.bits.MODE0 = 0x01;   // 设置MODE0为01（输出模式）
-    reg.bits.MODE1 = 0x03;   // 设置MODE1为11（模拟模式）
+// 一行调用就把上面的配置应用到硬件
+HAL_GPIO_Init(GPIOA, &gpio_init);
 
-    // 问题：
-    // 1. reg.word现在的值是多少？（用十六进制表示）
-    // 2. 为什么使用union而不是直接用位操作？
-    // 3. 嵌入式开发中，位域和union组合有什么优点？
-}
+// 问题：
+// 1. 为什么 HAL 用一个结构体（GPIO_InitTypeDef）来描述配置，而不是写一长串函数参数
+//    或者直接往寄存器里写数字？（提示：结构体像一张"配置表"，字段清楚、好读好改。）
+// 2. 如果想让 PA5 同时换一个功能（比如改成输入），你需要改结构体的哪个字段？为什么这样改比
+//    直接改硬件寄存器更省心？
+// 3. HAL_GPIO_Init(GPIOA, &gpio_init) 里的 & 是什么意思？为什么传指针而不是传整个结构体？
 ```
+
+> **为什么这样学 | Why learn it this way:**
+> HAL 库内部其实也会用结构体、位域、union 这些 C 技巧去对应硬件寄存器的位，但那是库作者的事——你作为使用者，只需要会"填一张配置表（结构体），然后调用 `HAL_GPIO_Init` 让它生效"。这个模式在配置串口、I2C、SPI、USB 时会反复出现，所以前置检查只要求理解"结构体当配置表用"这个思路。位域和 union 作为 C 语言知识点了解即可（遇到库源码能看懂大概），不需要自己手写去对齐寄存器位。
 
 ### 检查3：运动学基础概念
 ```

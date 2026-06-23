@@ -40,7 +40,7 @@ Each section is organized by subsystem. For each problem:
 
 | Symptom / 症状 | Possible Cause / 可能原因 | Solution / 解决方案 |
 |---|---|---|
-| Servos move slowly or weakly | Insufficient current from USB | USB 2.0 provides 500mA guaranteed. 5 servos can draw 1.5A peak. Use USB-C power delivery (negotiate 5V/2A) or external 5V supply. / USB 2.0 保证 500mA。5个舵机峰值电流 1.5A。使用 USB-C PD（协商 5V/2A）或外部 5V 电源。 |
+| Servos move slowly or weakly | Insufficient current from USB | USB 2.0 provides 500mA guaranteed. 6 servos can draw 1.8A peak. Use USB-C power delivery (negotiate 5V/2A+) or external 5V supply. / USB 2.0 保证 500mA。6个舵机峰值电流 1.8A。使用 USB-C PD（协商 5V/2A 以上）或外部 5V 电源。 |
 | Servo power enable does not work | MOSFET gate not driven properly | Check PA1 GPIO output. Verify MOSFET gate-source voltage > 2.5V when enabled. Check gate pull-down resistor. / 检查 PA1 GPIO 输出。使能时确认 MOSFET 栅源电压 > 2.5V。检查栅极下拉电阻。 |
 | One servo has no power | Broken wire in daisy chain | Measure continuity of 5V and GND at each servo board. The daisy chain must have solid connections. / 测量每个舵机板 5V 和 GND 的连通性。菊花链必须有可靠连接。 |
 

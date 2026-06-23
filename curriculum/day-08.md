@@ -37,7 +37,7 @@ ElectronBot needs to know its own body orientation — whether it's tilted, pick
 ### 任务8.1: I2C多设备总线管理 (30分钟)
 
 ElectronBot 的 I2C 总线上挂载了多个设备：
-- 5个舵机驱动板（地址 0x01–0x05）
+- 6个舵机驱动板（地址 0x01–0x06）
 - MPU6050（地址 0x68 或 0x69）
 - APDS-9960（地址 0x39）
 
@@ -64,7 +64,7 @@ HAL_StatusTypeDef i2c_scan(I2C_HandleTypeDef *hi2c)
 }
 ```
 
-**预期结果:** 串口输出7个I2C设备地址（5个舵机+MPU6050+APDS-9960）
+**预期结果:** 串口输出8个I2C设备地址（6个舵机+MPU6050+APDS-9960）
 
 ### 任务8.2: MPU6050驱动编写 (45分钟)
 

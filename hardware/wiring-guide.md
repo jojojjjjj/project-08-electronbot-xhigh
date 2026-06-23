@@ -19,8 +19,8 @@ This document describes all electrical connections in the ElectronBot.
 
 ## 1. I2C Bus: Servo Control / I2C 总线：舵机控制
 
-The STM32F405 acts as I2C master, controlling 5 servo driver boards as slaves.
-STM32F405 作为 I2C 主机，控制 5 块舵机驱动板作为从机。
+The STM32F405 acts as I2C master, controlling 6 servo driver boards as slaves.
+STM32F405 作为 I2C 主机，控制 6 块舵机驱动板作为从机。
 
 ### Bus Topology / 总线拓扑
 
@@ -32,7 +32,8 @@ STM32F405 作为 I2C 主机，控制 5 块舵机驱动板作为从机。
   (Master / 主机)     ├──── Servo #2 (0x02) Left Lower Arm / 左下臂
   I2C1: PB7(SDA)      ├──── Servo #3 (0x03) Right Upper Arm / 右上臂
        PB6(SCL)       ├──── Servo #4 (0x04) Right Lower Arm / 右下臂
-                      └──── Servo #5 (0x05) Neck Rotation / 颈部旋转
+                      ├──── Servo #5 (0x05) Neck Rotation / 颈部旋转
+                      └──── Servo #6 (0x06) Waist Rotation / 腰部旋转
 
   Broadcast address / 广播地址: 0x00 (all servos respond / 所有舵机响应)
 ```
@@ -61,8 +62,11 @@ STM32F405 作为 I2C 主机，控制 5 块舵机驱动板作为从机。
                                                 ├─── Servo #4
                                                 │    舵机 #4
                                                 │
-                                                └─── Servo #5
-                                                     舵机 #5
+                                                ├─── Servo #5
+                                                │    舵机 #5
+                                                │
+                                                └─── Servo #6
+                                                     舵机 #6
 
   Wire gauge / 线径: 26 AWG minimum for signal, 22 AWG for power
   信号线最小 26 AWG，电源线最小 22 AWG
@@ -284,7 +288,7 @@ MPU6050 和 APDS-9960 共享头板/传感器板上的第二条 I2C 总线。
   │          │                                ├── GC9A01 LCD (~60mA)    │
   │          │                                ├── MPU6050 (~4mA)        │
   │          │                                ├── APDS-9960 (~1mA)      │
-  │          │                                ├── STM32F042 x5 (~50mA)  │
+  │          │                                ├── STM32F042 x6 (~60mA)  │
   │          │                                └── Pull-ups, misc (~10mA)│
   │          │                                                           │
   │          └──── USB HUB CH334R (5V) ── USB Camera (~200mA)          │
@@ -299,9 +303,9 @@ MPU6050 和 APDS-9960 共享头板/传感器板上的第二条 I2C 总线。
   ├─────────────────────────┼────────────┼──────────────────────────────┤
   │ 3.3V logic              │ ~275mA     │ MCU + sensors + display      │
   │ 5V servo (per servo)    │ ~300mA max │ Stall current ~500mA         │
-  │ 5V servo (all 5 peak)   │ ~1.5A peak │ Use polyfuse protection      │
+  │ 5V servo (all 6 peak)   │ ~1.8A peak │ Use polyfuse protection      │
   │ 5V USB camera           │ ~200mA     │ Via USB HUB                  │
-  │ Total 5V from USB-C     │ ~2A peak   │ USB-C must support 2A        │
+  │ Total 5V from USB-C     │ ~2.2A peak │ USB-C must support 2A+       │
   └─────────────────────────┴────────────┴──────────────────────────────┘
 
   WARNING: Servo stall current can cause voltage drops. Use separate
@@ -358,7 +362,14 @@ MPU6050 和 APDS-9960 共享头板/传感器板上的第二条 I2C 总线。
                                     │  Servo #4    │  │  Servo #5    │
                                     │  右下臂       │  │  颈部         │
                                     │  (0x04)      │  │  (0x05)      │
-                                    └──────────────┘  └──────────────┘
+                                    └──────────────┘  └──────┬───────┘
+                                                             │
+                                                             ▼
+                                                    ┌──────────────┐
+                                                    │  Servo #6    │
+                                                    │  腰部         │
+                                                    │  (0x06)      │
+                                                    └──────────────┘
 
   Cable length / 线缆长度:
     Sensor → Servo #1:  80mm
@@ -366,6 +377,7 @@ MPU6050 和 APDS-9960 共享头板/传感器板上的第二条 I2C 总线。
     Sensor → Servo #3:  80mm
     Servo #3 → #4:      60mm
     Servo #3 → #5:      70mm (neck, different branch)
+    Servo #5 → #6:      60mm (waist, continues from neck branch)
 
   IMPORTANT: Keep I2C wires as short as possible. Total bus length
   should not exceed 500mm at 400kHz. Add 100nF decoupling caps at
@@ -405,6 +417,7 @@ MPU6050 和 APDS-9960 共享头板/传感器板上的第二条 I2C 总线。
   │  │  0   │  1   │  1   │ 0x03 (Right Up)  │                 │
   │  │  1   │  0   │  0   │  0x04 (Right Down)│                │
   │  │  1   │  0   │  1   │ 0x05 (Neck)      │                 │
+  │  │  1   │  1   │  0   │ 0x06 (Waist)     │                 │
   │  └──────┴──────┴──────┴──────────────────┘                 │
   │  Pull LOW = 1, Pull HIGH (to 3.3V) = 0                     │
   └──────────────────────────────────┘

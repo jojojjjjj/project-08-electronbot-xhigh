@@ -44,12 +44,13 @@
   │  舵机 I2C 总线      ├──▶ Servo #2 (0x02) 左臂下舵机                       │
   │                     ├──▶ Servo #3 (0x03) 右臂上舵机                       │
   │                     ├──▶ Servo #4 (0x04) 右臂下舵机                       │
-  │                     └──▶ Servo #5 (0x05) 颈部舵机                         │
+  │                     ├──▶ Servo #5 (0x05) 颈部舵机                         │
+  │                     └──▶ Servo #6 (0x06) 腰部舵机                         │
   └─────────────────────────────────────────────────────────────────────────────┘
           │ I2C Daisy Chain
           ▼
   ┌─────────────────────────────────────────────────────────────────────────────┐
-  │                    SERVO DRIVE BOARD x5 / 舵机驱动板 x5                     │
+  │                    SERVO DRIVE BOARD x6 / 舵机驱动板 x6                     │
   │  ┌──────────────┐   ┌───────────────┐   ┌───────────────┐                 │
   │  │ STM32F042P6  │──▶│   FM116B      │──▶│  DC Motor     │                 │
   │  │ I2C Slave    │   │  电机驱动     │   │  直流电机     │                 │
@@ -85,21 +86,21 @@
 | 9 | MPU6050 | 6-axis IMU (3-axis gyro + accel), I2C | 1 | 8元 | 8元 | Pose sensing / 姿态感知 |
 | 10 | USB camera module | OV9734 or similar, USB interface | 1 | 15元 | 15元 | Vision input / 视觉输入 |
 | 11 | Camera connector | FPC/FPC socket, matched to camera | 1 | - | - | On camera module |
-| 12 | I2C servo connectors | 5-pin JST or similar, x5 | 5 | 1元 | 5元 | Servo bus output / 舵机总线输出 |
+| 12 | I2C servo connectors | 5-pin JST or similar, x6 | 6 | 1元 | 6元 | Servo bus output / 舵机总线输出 |
 
-**Sensor Board Subtotal / 传感器板小计: 46元**
+**Sensor Board Subtotal / 传感器板小计: 47元**
 
 ---
 
-## 3. Servo Drive Board Components (x5 sets) / 舵机驱动板元件 (5套)
+## 3. Servo Drive Board Components (x6 sets) / 舵机驱动板元件 (6套)
 
 | # | Component / 元件 | Specification / 规格 | Qty (per board) | Qty (total) | Unit Price / 单价 | Subtotal / 小计 | Notes / 备注 |
 |---|---|---|---|---|---|---|---|
-| 13 | STM32F042P6 | ARM Cortex-M0, 48MHz, TSSOP-20 | 1 | 5 | 8元 | 40元 | I2C slave MCU / I2C从控 |
-| 14 | FM116B | H-bridge motor driver, SOT-23-6 | 1 | 5 | 2元 | 10元 | Motor drive / 电机驱动 |
-| 15 | Potentiometer / 电位器 | 10k linear, 3-pin, for angle feedback | 1 | 5 | 1元 | 5元 | Angle feedback / 角度反馈 |
+| 13 | STM32F042P6 | ARM Cortex-M0, 48MHz, TSSOP-20 | 1 | 6 | 8元 | 48元 | I2C slave MCU / I2C从控 |
+| 14 | FM116B | H-bridge motor driver, SOT-23-6 | 1 | 6 | 2元 | 12元 | Motor drive / 电机驱动 |
+| 15 | Potentiometer / 电位器 | 10k linear, 3-pin, for angle feedback | 1 | 6 | 1元 | 6元 | Angle feedback / 角度反馈 |
 
-**Servo Drive Board Subtotal / 舵机驱动板小计: 55元**
+**Servo Drive Board Subtotal / 舵机驱动板小计: 66元**
 
 ---
 
@@ -107,7 +108,7 @@
 
 | # | Component / 元件 | Specification / 规格 | Qty | Unit Price / 单价 | Subtotal / 小计 | Notes / 备注 |
 |---|---|---|---|---|---|---|
-| 16 | Standard servos / 标准舵机 | SG90 or compatible, modified with custom board | 5 | 15元 | 75元 | Arms + neck / 手臂和颈部 |
+| 16 | Standard servos / 标准舵机 | SG90 or compatible, modified with custom board | 6 | 15元 | 90元 | Arms + neck + waist / 手臂+颈部+腰部 |
 | 17 | Bearings 6x10x3mm / 轴承 6x10x3 | MR106-2RS miniature bearing | 4 | 2元 | 8元 | Arm joints / 手臂关节 |
 | 18 | Bearing 25x32x4mm / 轴承 25x32x4 | Thin-section bearing for neck/waist | 1 | 7元 | 7元 | Neck rotation / 颈部旋转 |
 | 19 | 3D printed body / 3D打印外壳 | Nylon (SLS) or SLA resin, full set | 1 set | 80-100元 | 90元 | Shell + internal structure |
@@ -118,7 +119,7 @@
 | 24 | DC-DC converter / DC-DC 转换 | 5V to 3.3V, 2A, buck converter | 1 | 3元 | 3元 | Power regulation / 电源稳压 |
 | 25 | Miscellaneous / 杂项 | Heat-shrink tubing, wire, adhesive | 1 set | 5元 | 5元 | Assembly consumables |
 
-**Mechanical & Power Subtotal / 机械与电源小计: 208元**
+**Mechanical & Power Subtotal / 机械与电源小计: 223元**
 
 ---
 
@@ -127,14 +128,20 @@
 | Category / 类别 | Cost / 费用 |
 |---|---|
 | Head Board / 主控板 | 78元 |
-| Sensor Board / 传感器板 | 46元 |
-| Servo Drive Boards x5 / 舵机驱动板 x5 | 55元 |
-| Servos / 舵机 | 75元 |
-| Mechanical & Power / 机械与电源 | 133元 |
-| **Total / 总计** | **~387元** |
-| **With 15% contingency / 含15%余量** | **~450元** |
+| Sensor Board / 传感器板 | 47元 |
+| Servo Drive Boards x6 / 舵机驱动板 x6 | 66元 |
+| Servos (x6) / 舵机 (6个) | 90元 |
+| Mechanical & Power / 机械与电源 | 223元 |
+| **Total / 总计** | **~504元** |
 
-> Estimated total range / 预估总范围: **400-500元**
+> Estimated total range / 预估总范围: **430-500元**
+>
+> 注：上表逐项相加约 504 元，略超 500 元预算上限，主要因为 3D 打印件（~90 元）是大头。实际操作中只要满足以下任一条件即可压到 500 元以内：
+> 1. 用学校/实验室的 3D 打印机（省 ~90 元）；
+> 2. 多人拼一次 3D 打印订单分摊运费（省 ~30-50 元）；
+> 3. 舵机批量采购（6 个一起买单价可降到 ~12 元，省 ~18 元）。
+>
+> Note: line items sum to ~504 CNY, slightly over the 500 CNY budget ceiling, mainly due to 3D printing (~90 CNY). In practice you stay under 500 if any of these holds: use a school/lab 3D printer (~90 saved); split a 3D-printing order with others (~30-50 saved); or buy servos in a batch of 6 at ~12 CNY each (~18 saved).
 
 ---
 
@@ -162,10 +169,10 @@
 > GC9A01 圆形 LCD 使用 SPI 接口，逻辑电平为 3.3V。
 > 切勿连接 5V，否则显示屏将永久损坏。
 
-> **Important / 重要:** Each servo drive board must have a unique I2C address (0x01-0x05).
+> **Important / 重要:** Each servo drive board must have a unique I2C address (0x01-0x06).
 > Addresses are set via solder jumpers or internal pull-ups during assembly.
 > Verify addresses with an I2C scanner before installation.
-> 每块舵机驱动板必须设置唯一的 I2C 地址（0x01-0x05）。
+> 每块舵机驱动板必须设置唯一的 I2C 地址（0x01-0x06）。
 > 地址通过焊锡跳线或内部上拉在组装时设定。
 > 安装前请使用 I2C 扫描器验证地址。
 

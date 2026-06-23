@@ -4,9 +4,13 @@
 ElectronBot 进阶桌宠机器人 | ElectronBot Advanced Desktop Pet
 
 ## 项目定位 | Project Positioning
-本项目是一个面向有一定嵌入式基础的**高中进阶暑期硬件实践课程**，为期12天（约2周半），每天6-8小时。学员将从零开始，使用STM32F4芯片（ARM Cortex-M4）开发一个具备6自由度舵机控制、环形屏幕表情、USB摄像头视觉、AI对话等功能的桌面宠物机器人。课程还涉及Unity桌面软件开发、OpenCV计算机视觉、以及LLM API集成，是一个横跨嵌入式固件、桌面应用、人工智能三大领域的综合型项目。
+本项目是一个面向有一定嵌入式基础的**高中进阶暑期硬件实践课程**，为期12天（约2周半），每天6-8小时。学员将从零开始，使用STM32F4芯片（ARM Cortex-M4）开发一个具备6自由度舵机控制、环形屏幕表情、手势/IMU 触发动作的桌面宠物机器人。
 
-This is an **advanced summer hardware practicum** for high school students with some embedded systems background, spanning 12 days (approx. 2.5 weeks) at 6-8 hours per day. Students will build a desktop pet robot from scratch using the STM32F4 (ARM Cortex-M4) chip, featuring 6-DOF servo control, round-screen facial expressions, USB camera vision, and AI dialogue. The course also covers Unity desktop software development, OpenCV computer vision, and LLM API integration -- a comprehensive project spanning embedded firmware, desktop applications, and artificial intelligence.
+> **夏令营 MVP 范围 | Camp MVP Scope：** 12 天时间紧，我们把交付目标收窄为**屏幕表情 + 手势/IMU 触发动作**这一核心体验（详见 `assignments.md` 的 MVP 定义）。视觉跟随（OpenCV 人脸检测）、Python 上位机为 Day 9-10 内容；OpenCV 姿态估计、3D 虚拟形象同步、LLM 对话与语音流水线均为 **stretch 选做**，学有余力的同学挑战，不影响 MVP 评分。原 ElectronBot 用 Unity+C#+C++ DLL 上位机，夏令营为压薄语言栈改用 **Python 上位机**直接走 USB 桥接。
+
+This is an **advanced summer hardware practicum** for high school students with some embedded systems background, spanning 12 days (approx. 2.5 weeks) at 6-8 hours per day. Students build a desktop pet robot from scratch using the STM32F4 (ARM Cortex-M4) chip, featuring 6-DOF servo control, round-screen facial expressions, and gesture/IMU-triggered actions.
+
+> **Camp MVP scope:** With only 12 days, we narrow the deliverable to the core experience of **screen expressions + gesture/IMU-triggered actions** (see the MVP definition in `assignments.md`). OpenCV face detection and the Python host app are Day 9-10 content; OpenCV pose estimation, 3D avatar sync, LLM dialogue, and the voice pipeline are all **stretch goals** for students who finish the MVP. The original ElectronBot uses a Unity+C#+C++ DLL host app; the camp swaps this for a **Python host app** over USB to keep the language stack thin.
 
 ## 学习目标 | Learning Objectives
 
@@ -17,8 +21,8 @@ This is an **advanced summer hardware practicum** for high school students with 
 4. 理解I2C总线舵机控制与PID闭环控制的数学模型
 5. 掌握6自由度机器人运动学（正运动学计算与坐标变换）
 6. 理解帧动画系统和有限状态机在嵌入式中的应用
-7. 了解OpenCV计算机视觉和OpenPose姿态估计的基本原理
-8. 了解LLM大语言模型API调用的流程和语音交互流水线
+7. 了解OpenCV计算机视觉（人脸检测）的基本原理（姿态估计为 stretch）
+8. 了解LLM大语言模型API调用的流程和语音交互流水线（stretch 选做）
 
 ### 技能目标 | Skill Objectives
 1. 能够独立搭建STM32CubeIDE开发环境并完成固件编译烧录
@@ -26,9 +30,9 @@ This is an **advanced summer hardware practicum** for high school students with 
 3. 能够完成贴片IC（含QFN封装）的手工焊接和PCB组装
 4. 能够使用ST-Link和串口调试工具进行嵌入式固件调试
 5. 能够编写C代码驱动SPI显示屏、I2C舵机控制器、USB设备等外设
-6. 能够使用Unity开发桌面应用程序并与嵌入式设备USB通信
-7. 能够使用OpenCV实现基本的计算机视觉功能（人脸检测、姿态估计）
-8. 能够集成LLM API实现AI对话和语音交互功能
+6. 能够使用 Python 开发简单上位机（tkinter/PyQt）并通过 USB 桥接与嵌入式设备通信（原项目 Unity 上位机为 stretch 参考）
+7. 能够使用OpenCV实现基本的计算机视觉功能（人脸检测为必做，姿态估计为 stretch）
+8. 能够集成LLM API实现AI对话和语音交互功能（stretch 选做）
 
 ### 素养目标 | Competency Objectives
 1. 培养"固件+桌面软件+AI"全栈系统集成的工程思维
@@ -54,12 +58,12 @@ In this phase, students set up the STM32CubeIDE development environment, learn t
 
 This is the core technical phase. Students learn STM32 HAL library programming, develop a USB CDC device for PC communication, drive the GC9A01 round display for facial expression rendering, control 6 servos via I2C with PID closed-loop control, design expression state machines and frame animation playback, and finally integrate gesture sensors and MPU6050 IMU.
 
-### 第三阶段：Unity桌面软件与系统集成（Day 9-12）
-**主题：Unity桌面应用开发、ElectronBot SDK、OpenCV计算机视觉、AI大模型集成、项目展示**
+### 第三阶段：Python 上位机、视觉与系统集成（Day 9-12）
+**主题：Python 上位机开发、OpenCV 计算机视觉、（stretch）AI 大模型集成、项目展示**
 
-最后阶段转向桌面端开发。学员将学习Unity基础和ElectronBot SDK架构，开发PC端控制软件通过USB与机器人通信。然后使用OpenCV实现摄像头视觉功能，包括OpenPose姿态估计让机器人模仿人类动作。最后集成LLM API实现AI对话，并进行系统整合、展示和技术复盘。
+最后阶段转向 PC 端开发。学员用 Python（tkinter/PyQt）做一个简单上位机，通过 USB 桥接控制机器人；再用 OpenCV 实现摄像头人脸检测，让机器人头部跟随人脸。OpenCV 姿态估计、3D 虚拟形象同步、LLM 对话与语音流水线均为 **stretch 选做**。最后做系统整合、展示和技术复盘。
 
-The final phase shifts to desktop development. Students learn Unity basics and the ElectronBot SDK architecture, developing a PC control app that communicates with the robot via USB. They then use OpenCV for camera vision features, including OpenPose pose estimation for robot motion imitation. Finally, they integrate LLM APIs for AI dialogue, perform system integration, and present their work.
+The final phase shifts to PC-side development. Students build a simple Python host app (tkinter/PyQt) that controls the robot over USB, then use OpenCV for camera face detection so the robot's head follows a face. OpenCV pose estimation, 3D avatar sync, LLM dialogue, and the voice pipeline are all **stretch goals**. The phase ends with system integration, presentation, and a technical retrospective.
 
 ### 每日课程速览 | Daily Course At-a-Glance
 
@@ -73,10 +77,10 @@ The final phase shifts to desktop development. Students learn Unity basics and t
 | Day 6 | 舵机控制系统 | I2C总线通信 + 舵机控制协议 | PID闭环控制 + 6自由度运动学计算 |
 | Day 7 | 表情动画系统 | 帧动画原理 + 图像资源制作 | 表情状态机设计 + 动画播放引擎 |
 | Day 8 | 传感器集成 | 手势传感器APDS-9960 + MPU6050 IMU | USB摄像头集成 + 传感器数据融合 |
-| Day 9 | Unity基础 | Unity界面与C#脚本基础 | ElectronBot SDK架构 + USB通信桥接 |
-| Day 10 | 计算机视觉 | OpenCV基础 + 人脸检测 | OpenPose姿态估计 + 动作模仿功能 |
-| Day 11 | AI功能集成 | LLM API对接 + 对话系统设计 | 语音识别集成 + 自定义行为系统 |
-| Day 12 | 项目展示 | 系统最终整合 + Demo演练 | 项目展示 + 技术复盘 + 创意拓展讨论 |
+| Day 9 | Python 上位机 | Python GUI（tkinter/PyQt）基础 | USB 桥接通信 + 上位机控制界面 |
+| Day 10 | 计算机视觉 | OpenCV 基础 + 人脸检测（Haar 级联） | 人脸跟随 + （stretch）姿态估计 |
+| Day 11 | AI 功能集成（stretch） | LLM API 对接 + 对话系统设计（选做） | 语音识别集成 + 自定义行为系统（选做） |
+| Day 12 | 项目展示 | 系统最终整合 + Demo 演练 | 项目展示 + 技术复盘 + 创意拓展讨论 |
 
 ## 每日时间安排 | Daily Schedule Template
 

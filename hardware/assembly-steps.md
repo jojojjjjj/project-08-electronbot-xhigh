@@ -16,31 +16,85 @@
 > - Keep small parts away from children and pets (choking hazard).
 >   小零件远离儿童和宠物（窒息危险）。
 
-**Estimated assembly time / 预计组装时间: 6-10 hours**
+**Estimated assembly time / 预计组装时间:**
+- **路线 A（主路径，预贴片板）| Route A (main, pre-assembled):** 约 2-4 小时（只焊连接器、线束、舵机改造）/ ~2-4 hours (solder connectors, wiring, servo mod only)
+- **路线 B（可选进阶，手工焊 QFN）| Route B (optional, hand-solder QFN):** 约 6-10 小时 / ~6-10 hours
 
 ---
 
 ## Phase 1: PCB Preparation and Soldering / 第一阶段：PCB 准备与焊接
 
+> **两条组装路线 | Two Assembly Routes**
+>
+> 本项目的核心板（主控板、传感器板）上有 QFN 封装（USB3300、MPU6050 等）和 0.5mm 间距的 LQFP64，手工焊接需要热风枪 + 钢网 + 显微镜，门槛高、耗时长。因此我们提供两条路线，**夏令营主路径走路线 A**，路线 B 留给有焊接基础、想练手的进阶同学。
+>
+> This project's core boards (head board, sensor board) carry QFN packages (USB3300, MPU6050) and 0.5mm-pitch LQFP64. Hand soldering them needs a hot-air station, stencil, and microscope — high bar, long time. So we offer two routes: **the camp main path is Route A**; Route B is for students with soldering background who want the practice.
+>
+> - **路线 A（主路径，推荐）| Route A (main, recommended):** 直接采购嘉立创 SMT 代工贴片好的核心板（主控板、传感器板）和成品舵机驱动板。学生只负责焊接排针、连接器、线束，以及舵机改造。组装时间约 2-4 小时。
+>   Buy SMT-assembled core boards (head + sensor) and finished servo driver boards from JLCPCB. Students only solder pin headers, connectors, wiring, and do the servo mod. ~2-4 hours.
+> - **路线 B（可选进阶）| Route B (optional, advanced):** 自己用热风枪手工回流焊 QFN/LQFP 芯片。适合有贴片焊接经验、想练手的学生。组装时间约 6-10 小时。
+>   Hand-reflow the QFN/LQFP chips yourself with a hot-air station. For students with SMD soldering experience who want the practice. ~6-10 hours.
+
 ### Step 1.1: Inspect PCBs / 检查 PCB 板
 
 ```
-  Unpack and visually inspect all 7 PCBs:
-  拆包并目视检查全部 7 块 PCB：
+  Unpack and visually inspect all 8 PCBs:
+  拆包并目视检查全部 8 块 PCB：
 
   [ ] Head board (主控板) x1
   [ ] Sensor board (传感器板) x1
-  [ ] Servo driver board (舵机驱动板) x5
+  [ ] Servo driver board (舵机驱动板) x6
 
   Check for: manufacturing defects, misaligned pads, broken traces.
   检查：制造缺陷、焊盘错位、断线。
+
+  路线 A：核心板应已由嘉立创 SMT 贴片完成，检查贴片元件有无偏移、连锡、缺件。
+  Route A: core boards should arrive SMT-assembled by JLCPCB — check for shifted
+           parts, solder bridges, or missing components.
 ```
 
 > **Warning / 警告:** If any PCB has visible damage, do not proceed.
 > Contact the PCB manufacturer for replacement.
 > 如果任何 PCB 有可见损坏，请勿继续。联系 PCB 制造商更换。
 
-### Step 1.2: Solder Head Board / 焊接主控板
+### Step 1.2: Head Board / 主控板
+
+#### 路线 A（主路径）：在预贴片核心板上补焊连接器 | Route A (main): solder connectors onto the pre-assembled board
+
+> 核心板上的 STM32F405、USB3300、LDO、被动元件等已由嘉立创 SMT 代工贴片完成。学生只需补焊**通孔连接器**和**排针**——这些用普通电烙铁就能完成，不需要热风枪。
+>
+> The STM32F405, USB3300, LDO, and passives are already SMT-assembled by JLCPCB. Students only add **through-hole connectors** and **pin headers** — doable with a regular soldering iron, no hot-air station needed.
+
+```
+  用电烙铁补焊以下通孔元件 / Solder these through-hole parts with an iron:
+
+  1. SWD 调试排针（2x5，2.54mm 间距）——用于 ST-Link 烧录
+     SWD debug header (2x5, 2.54mm pitch) — for ST-Link programming
+  2. USB-C 母座（如 SMT 未含，需手工补焊；建议让 SMT 一并贴上）
+     USB-C receptacle (if not included in SMT, hand-solder; better to have SMT place it)
+  3. SD 卡槽（如 SMT 未含）
+     SD card slot (if not included in SMT)
+  4. FFC 排线座（连传感器板）
+     FFC connector (to sensor board)
+  5. 任何未贴片的连接器/排针
+
+  焊接要点 / Soldering tips:
+  - 先用助焊剂涂在焊盘和引脚上，受热更均匀。
+    Apply flux to pads and pins first for even heating.
+  - 排针先用一颗锡固定定位，确认方正后再焊其余引脚。
+    Tack one pin to position the header, check it's straight, then solder the rest.
+  - 焊点呈光亮圆锥状即可，避免假焊和连锡。
+    Joints should be shiny cones; avoid cold joints and bridges.
+```
+
+> **Tip / 提示:** 如果自己不确定 SMT 贴片质量，上电前先用万用表量 3.3V↔GND、5V↔GND 是否短路（正常应 >1kΩ），见第六阶段 Step 6.1。
+> If unsure about SMT quality, check 3.3V↔GND and 5V↔GND for shorts with a multimeter before powering on (should be >1kΩ), see Phase 6 Step 6.1.
+
+#### 路线 B（可选进阶）：手工回流焊 QFN/LQFP | Route B (optional, advanced): hand-reflow QFN/LQFP
+
+> ⚠️ 这一路线需要热风枪、钢网、焊锡膏和放大镜/显微镜。**没练过贴片焊接的同学请走路线 A。** 下面保留完整手工焊接流程给进阶同学参考。
+>
+> ⚠️ This route needs a hot-air station, stencil, solder paste, and magnifier/microscope. **Students without SMD soldering practice should take Route A.** The full hand-soldering flow is kept below for advanced students.
 
 **Order: smallest to largest components / 焊接顺序：从小到大元件**
 
@@ -105,7 +159,28 @@
 5. **SD card slot (J1) / SD 卡槽**
 6. **All remaining connectors, LDO, TVS diodes / 其余连接器、LDO、TVS 二极管**
 
-### Step 1.3: Solder Sensor Board / 焊接传感器板
+### Step 1.3: Sensor Board / 传感器板
+
+#### 路线 A（主路径）：预贴片板 + 补焊连接器 | Route A (main): pre-assembled board + connectors
+
+> 传感器板上的 CH334R、APDS-9960、MPU6050 等 QFN 芯片由嘉立创 SMT 贴片完成。学生只需补焊 I2C 舵机输出连接器（x6）和 FFC 输入连接器。
+>
+> The CH334R, APDS-9960, MPU6050 (QFN) on the sensor board are SMT-assembled by JLCPCB. Students only solder the I2C servo output connectors (x6) and the FFC input connector.
+
+```
+  1. 焊接 FFC 输入连接器（连主控板）
+     Solder FFC input connector (to head board)
+  2. 焊接 I2C 舵机输出连接器 x6（JST 或同款 5 针）
+     Solder I2C servo output connectors x6 (JST or similar 5-pin)
+  3. 焊接 USB 摄像头 FPC 连接器（如 SMT 未含）
+     Solder USB camera FPC connector (if not included in SMT)
+```
+
+> **Note / 注意:** The APDS-9960 sensor lens must face outward through a
+> transparent window in the housing. Note its orientation when installing.
+> APDS-9960 传感器镜头必须通过外壳的透明窗口朝外。安装时注意方向。
+
+#### 路线 B（可选进阶）：手工焊接 QFN | Route B (optional, advanced): hand-solder QFN
 
 ```
   1. Solder in order / 按顺序焊接:
@@ -114,7 +189,7 @@
      - APDS-9960 (small QFN) / 手势传感器
      - MPU6050 (QFN) / 六轴传感器
      - USB camera FPC connector / USB 摄像头 FPC 连接器
-     - I2C servo output connectors (x5) / I2C 舵机输出连接器
+     - I2C servo output connectors (x6) / I2C 舵机输出连接器
      - FFC input connector (to head board) / FFC 输入连接器（连主控板）
 ```
 
@@ -122,10 +197,47 @@
 > transparent window in the housing. Note its orientation when soldering.
 > APDS-9960 传感器镜头必须通过外壳的透明窗口朝外。焊接时注意方向。
 
-### Step 1.4: Solder Servo Driver Boards (x5) / 焊接舵机驱动板（5 块）
+### Step 1.4: Servo Driver Boards (x6) / 舵机驱动板（6 块）
+
+#### 路线 A（主路径）：采购成品舵机驱动板 + 设置地址 | Route A (main): buy finished boards + set addresses
+
+> 6 块舵机驱动板直接采购嘉立创 SMT 贴片的成品（STM32F042 TSSOP-20 虽比 QFN 好焊，但批量采购成品更省心、一致性更好）。学生只需设置每块板的 I2C 地址并焊好连接器。
+>
+> Buy the 6 servo driver boards SMT-assembled from JLCPCB (STM32F042 TSSOP-20 is easier than QFN, but buying finished boards is more reliable and consistent). Students only set each board's I2C address and solder the connectors.
 
 ```
-  Repeat for all 5 boards / 重复 5 次:
+  对每块板 / For each board:
+
+  1. 焊接 I2C 输入/输出连接器（JST 5 针）
+     Solder I2C input/output connectors (JST 5-pin)
+  2. 焊接电机焊盘（2 个焊盘连直流电机）和电位器输入焊盘
+     Solder motor wire pads (2 pads for DC motor) and potentiometer input pad
+  3. 设置地址跳线——按地址表焊接闭合或断开：
+     Set address jumpers — solder CLOSED or OPEN per address table:
+
+     Board #1 (0x01): Bit2=H, Bit1=H, Bit0=L
+     Board #2 (0x02): Bit2=H, Bit1=L, Bit0=H
+     Board #3 (0x03): Bit2=H, Bit1=L, Bit0=L
+     Board #4 (0x04): Bit2=L, Bit1=H, Bit0=H
+     Board #5 (0x05): Bit2=L, Bit1=H, Bit0=L
+     Board #6 (0x06): Bit2=L, Bit1=L, Bit0=H
+
+     H = jumper open (pull-up to 3.3V), L = jumper closed (pull to GND)
+     H = 跳线断开（上拉至3.3V），L = 跳线闭合（下拉至GND）
+```
+
+> **Warning / 警告:** Double-check address jumpers before proceeding.
+> Two boards with the same I2C address will cause bus contention.
+> 继续前请仔细检查地址跳线。两块板使用相同 I2C 地址将导致总线冲突。
+
+#### 路线 B（可选进阶）：手工焊接舵机驱动板 | Route B (optional, advanced): hand-solder servo boards
+
+> STM32F042 的 TSSOP-20 封装（0.65mm 间距）比主控板的 QFN/LQFP 好焊不少，适合想练贴片焊接的同学。如果走这条路线，把下面的元件依次焊好，再回到上面设置地址跳线和连接器。
+>
+> The STM32F042's TSSOP-20 (0.65mm pitch) is noticeably easier than the head board's QFN/LQFP — a good practice target for students who want to learn SMD soldering. If you take this route, solder the parts below, then return to the address jumper and connector steps above.
+
+```
+  Repeat for all 6 boards / 重复 6 次:
 
   1. STM32F042P6 (TSSOP-20) — easier than LQFP, 0.65mm pitch
      STM32F042P6 (TSSOP-20) — 比 LQFP 简单，0.65mm 间距
@@ -141,6 +253,7 @@
      Board #3 (0x03): Bit2=H, Bit1=L, Bit0=L
      Board #4 (0x04): Bit2=L, Bit1=H, Bit0=H
      Board #5 (0x05): Bit2=L, Bit1=H, Bit0=L
+     Board #6 (0x06): Bit2=L, Bit1=L, Bit0=H
 
      H = jumper open (pull-up to 3.3V), L = jumper closed (pull to GND)
      H = 跳线断开（上拉至3.3V），L = 跳线闭合（下拉至GND）
@@ -163,7 +276,7 @@
 ### Step 2.1: Disassemble Standard Servos / 拆解标准舵机
 
 ```
-  For each of the 5 servos / 对每个舵机重复:
+  For each of the 6 servos / 对每个舵机重复:
 
   1. Remove the 4 long case screws from the bottom.
      拆下底部 4 颗长外壳螺丝。
@@ -238,8 +351,8 @@
      放置上盖。将输出轴与齿轮组对齐。
   4. Reinstall 4 case screws. Do NOT over-tighten (plastic threads strip easily).
      重新安装 4 颗外壳螺丝。不要过紧（塑料螺纹容易滑丝）。
-  5. Label each servo with its I2C address (#1-#5).
-     用 I2C 地址（#1-#5）标记每个舵机。
+  5. Label each servo with its I2C address (#1-#6).
+     用 I2C 地址（#1-#6）标记每个舵机。
 ```
 
 > **Tip / 提示:** Before closing the case, manually rotate the output shaft
@@ -348,6 +461,12 @@
      通过齿轮或直接耦合将颈部舵机输出连接到头部。
   4. Route neck servo I2C cable through the bearing center.
      将颈部舵机 I2C 线缆通过轴承中心走线。
+  5. Mount waist servo (#6) to body base, below the neck bearing.
+     将腰部舵机（#6）安装到机身底座，位于颈部轴承下方。
+     The waist servo rotates the upper body relative to the base.
+     腰部舵机让上身相对底座旋转。
+  6. Connect waist servo output to the upper-body platform via gear or direct coupling.
+     通过齿轮或直接耦合将腰部舵机输出连接到上身平台。
 ```
 
 > **Warning / 警告:** The neck bearing carries the weight of the entire head.
@@ -403,7 +522,9 @@
      连接舵机 #3 I2C 输出 → 舵机 #4（右下臂）。
   5. Connect Servo #3 I2C output → Servo #5 (neck).
      连接舵机 #3 I2C 输出 → 舵机 #5（颈部）。
-  6. Secure all cables with cable ties or adhesive clips inside the body.
+  6. Connect Servo #5 I2C output → Servo #6 (waist).
+     连接舵机 #5 I2C 输出 → 舵机 #6（腰部）。
+  7. Secure all cables with cable ties or adhesive clips inside the body.
      用扎带或粘接夹固定机身内所有线缆。
 ```
 
@@ -569,6 +690,7 @@
      Found device at 0x03  (Servo #3 - Right Upper Arm)
      Found device at 0x04  (Servo #4 - Right Lower Arm)
      Found device at 0x05  (Servo #5 - Neck)
+     Found device at 0x06  (Servo #6 - Waist)
 ```
 
 > **Warning / 警告:** If any servo does not appear in the I2C scan:
