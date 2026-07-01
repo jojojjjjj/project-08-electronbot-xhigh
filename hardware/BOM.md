@@ -1,6 +1,8 @@
 # ElectronBot Advanced Desktop Pet - Bill of Materials (BOM)
 # ElectronBot 高级桌面机器人 - 物料清单
 
+<!-- 注：价格信息已注释隐藏（查价不准确，仅作参考不严谨）/ Note: price info commented out (inaccurate, not rigorous as reference) -->
+
 ---
 
 ## System Architecture / 系统架构
@@ -66,14 +68,14 @@
 
 | # | Component / 元件 | Specification / 规格 | Qty | Unit Price / 单价 | Subtotal / 小计 | Notes / 备注 |
 |---|---|---|---|---|---|---|
-| 1 | STM32F405RGT6 | ARM Cortex-M4, 168MHz, 1MB Flash, 192KB RAM, LQFP64 | 1 | 25元 | 25元 | Main MCU / 主控芯片 |
-| 2 | GC9A01 Round LCD | 1.28", 240x240, SPI interface | 1 | 25元 | 25元 | Face display / 表情显示 |
-| 3 | USB3300 | USB 2.0 HS ULPI PHY, QFN-24 | 1 | 15元 | 15元 | High-speed USB / 高速USB |
-| 4 | MicroSD card slot | Push-push type, 8-pin | 1 | 3元 | 3元 | Data storage / 数据存储 |
-| 5 | Crystal oscillator / 晶振 | 8MHz + 12MHz (for USB) | 2 | 1元 | 2元 | System + USB clock |
-| 6 | Passives / 被动元件 | Capacitors, resistors, inductors | 1 set | 8元 | 8元 | Decoupling, filtering / 去耦滤波 |
+| 1 | STM32F405RGT6 | ARM Cortex-M4, 168MHz, 1MB Flash, 192KB RAM, LQFP64 | 1 | <!-- 25元 --> | <!-- 25元 --> | Main MCU / 主控芯片 |
+| 2 | GC9A01 Round LCD | 1.28", 240x240, SPI interface | 1 | <!-- 25元 --> | <!-- 25元 --> | Face display / 表情显示 |
+| 3 | USB3300 | USB 2.0 HS ULPI PHY, QFN-24 | 1 | <!-- 15元 --> | <!-- 15元 --> | High-speed USB / 高速USB |
+| 4 | MicroSD card slot | Push-push type, 8-pin | 1 | <!-- 3元 --> | <!-- 3元 --> | Data storage / 数据存储 |
+| 5 | Crystal oscillator / 晶振 | 8MHz + 12MHz (for USB) | 2 | <!-- 1元 --> | <!-- 2元 --> | System + USB clock |
+| 6 | Passives / 被动元件 | Capacitors, resistors, inductors | 1 set | <!-- 8元 --> | <!-- 8元 --> | Decoupling, filtering / 去耦滤波 |
 
-**Head Board Subtotal / 主控板小计: 78元**
+**Head Board Subtotal / 主控板小计: <!-- 78元 -->**
 
 ---
 
@@ -81,14 +83,14 @@
 
 | # | Component / 元件 | Specification / 规格 | Qty | Unit Price / 单价 | Subtotal / 小计 | Notes / 备注 |
 |---|---|---|---|---|---|---|
-| 7 | APDS-9960 | Gesture/RGB/proximity sensor, I2C | 1 | 8元 | 8元 | Gesture control / 手势控制 |
-| 8 | CH334R | USB 2.0 HUB, 1-to-4 | 1 | 10元 | 10元 | USB expansion / USB扩展 |
-| 9 | MPU6050 | 6-axis IMU (3-axis gyro + accel), I2C | 1 | 8元 | 8元 | Pose sensing / 姿态感知 |
-| 10 | USB camera module | OV9734 or similar, USB interface | 1 | 15元 | 15元 | Vision input / 视觉输入 |
+| 7 | APDS-9960 | Gesture/RGB/proximity sensor, I2C | 1 | <!-- 8元 --> | <!-- 8元 --> | Gesture control / 手势控制 |
+| 8 | CH334R | USB 2.0 HUB, 1-to-4 | 1 | <!-- 10元 --> | <!-- 10元 --> | USB expansion / USB扩展 |
+| 9 | MPU6050 | 6-axis IMU (3-axis gyro + accel), I2C | 1 | <!-- 8元 --> | <!-- 8元 --> | Pose sensing / 姿态感知 |
+| 10 | USB camera module | OV9734 or similar, USB interface | 1 | <!-- 15元 --> | <!-- 15元 --> | Vision input / 视觉输入 |
 | 11 | Camera connector | FPC/FPC socket, matched to camera | 1 | - | - | On camera module |
-| 12 | I2C servo connectors | 5-pin JST or similar, x6 | 6 | 1元 | 6元 | Servo bus output / 舵机总线输出 |
+| 12 | I2C servo connectors | 5-pin JST or similar, x6 | 6 | <!-- 1元 --> | <!-- 6元 --> | Servo bus output / 舵机总线输出 |
 
-**Sensor Board Subtotal / 传感器板小计: 47元**
+**Sensor Board Subtotal / 传感器板小计: <!-- 47元 -->**
 
 ---
 
@@ -96,11 +98,11 @@
 
 | # | Component / 元件 | Specification / 规格 | Qty (per board) | Qty (total) | Unit Price / 单价 | Subtotal / 小计 | Notes / 备注 |
 |---|---|---|---|---|---|---|---|
-| 13 | STM32F042P6 | ARM Cortex-M0, 48MHz, TSSOP-20 | 1 | 6 | 8元 | 48元 | I2C slave MCU / I2C从控 |
-| 14 | FM116B | H-bridge motor driver, SOT-23-6 | 1 | 6 | 2元 | 12元 | Motor drive / 电机驱动 |
-| 15 | Potentiometer / 电位器 | 10k linear, 3-pin, for angle feedback | 1 | 6 | 1元 | 6元 | Angle feedback / 角度反馈 |
+| 13 | STM32F042P6 | ARM Cortex-M0, 48MHz, TSSOP-20 | 1 | 6 | <!-- 8元 --> | <!-- 48元 --> | I2C slave MCU / I2C从控 |
+| 14 | FM116B | H-bridge motor driver, SOT-23-6 | 1 | 6 | <!-- 2元 --> | <!-- 12元 --> | Motor drive / 电机驱动 |
+| 15 | Potentiometer / 电位器 | 10k linear, 3-pin, for angle feedback | 1 | 6 | <!-- 1元 --> | <!-- 6元 --> | Angle feedback / 角度反馈 |
 
-**Servo Drive Board Subtotal / 舵机驱动板小计: 66元**
+**Servo Drive Board Subtotal / 舵机驱动板小计: <!-- 66元 -->**
 
 ---
 
@@ -108,21 +110,22 @@
 
 | # | Component / 元件 | Specification / 规格 | Qty | Unit Price / 单价 | Subtotal / 小计 | Notes / 备注 |
 |---|---|---|---|---|---|---|
-| 16 | Standard servos / 标准舵机 | SG90 or compatible, modified with custom board | 6 | 15元 | 90元 | Arms + neck + waist / 手臂+颈部+腰部 |
-| 17 | Bearings 6x10x3mm / 轴承 6x10x3 | MR106-2RS miniature bearing | 4 | 2元 | 8元 | Arm joints / 手臂关节 |
-| 18 | Bearing 25x32x4mm / 轴承 25x32x4 | Thin-section bearing for neck/waist | 1 | 7元 | 7元 | Neck rotation / 颈部旋转 |
-| 19 | 3D printed body / 3D打印外壳 | Nylon (SLS) or SLA resin, full set | 1 set | 80-100元 | 90元 | Shell + internal structure |
-| 20 | Watch glass crystal / 手表玻璃 | 31.5mm diameter, flat, AR coated | 1 | 5元 | 5元 | Face cover / 面部保护盖 |
-| 21 | FFC cables / 柔性排线 | 0.5mm pitch, various lengths | 4 | 2元 | 8元 | Inter-board connection |
-| 22 | Screws & standoffs / 螺丝铜柱 | M2/M2.5/M3 assortment kit | 1 set | 5元 | 5元 | Mechanical fastening |
-| 23 | USB-C connector / USB-C 连接器 | USB 2.0, 16-pin, SMD | 1 | 2元 | 2元 | Power + data / 供电与数据 |
-| 24 | DC-DC converter / DC-DC 转换 | 5V to 3.3V, 2A, buck converter | 1 | 3元 | 3元 | Power regulation / 电源稳压 |
-| 25 | Miscellaneous / 杂项 | Heat-shrink tubing, wire, adhesive | 1 set | 5元 | 5元 | Assembly consumables |
+| 16 | Standard servos / 标准舵机 | SG90 or compatible, modified with custom board | 6 | <!-- 15元 --> | <!-- 90元 --> | Arms + neck + waist / 手臂+颈部+腰部 |
+| 17 | Bearings 6x10x3mm / 轴承 6x10x3 | MR106-2RS miniature bearing | 4 | <!-- 2元 --> | <!-- 8元 --> | Arm joints / 手臂关节 |
+| 18 | Bearing 25x32x4mm / 轴承 25x32x4 | Thin-section bearing for neck/waist | 1 | <!-- 7元 --> | <!-- 7元 --> | Neck rotation / 颈部旋转 |
+| 19 | 3D printed body / 3D打印外壳 | Nylon (SLS) or SLA resin, full set | 1 set | <!-- 80-100元 --> | <!-- 90元 --> | Shell + internal structure |
+| 20 | Watch glass crystal / 手表玻璃 | 31.5mm diameter, flat, AR coated | 1 | <!-- 5元 --> | <!-- 5元 --> | Face cover / 面部保护盖 |
+| 21 | FFC cables / 柔性排线 | 0.5mm pitch, various lengths | 4 | <!-- 2元 --> | <!-- 8元 --> | Inter-board connection |
+| 22 | Screws & standoffs / 螺丝铜柱 | M2/M2.5/M3 assortment kit | 1 set | <!-- 5元 --> | <!-- 5元 --> | Mechanical fastening |
+| 23 | USB-C connector / USB-C 连接器 | USB 2.0, 16-pin, SMD | 1 | <!-- 2元 --> | <!-- 2元 --> | Power + data / 供电与数据 |
+| 24 | DC-DC converter / DC-DC 转换 | 5V to 3.3V, 2A, buck converter | 1 | <!-- 3元 --> | <!-- 3元 --> | Power regulation / 电源稳压 |
+| 25 | Miscellaneous / 杂项 | Heat-shrink tubing, wire, adhesive | 1 set | <!-- 5元 --> | <!-- 5元 --> | Assembly consumables |
 
-**Mechanical & Power Subtotal / 机械与电源小计: 223元**
+**Mechanical & Power Subtotal / 机械与电源小计: <!-- 223元 -->**
 
 ---
 
+<!--
 ## 5. Cost Summary / 成本汇总
 
 | Category / 类别 | Cost / 费用 |
@@ -142,6 +145,7 @@
 > 3. 舵机批量采购（6 个一起买单价可降到 ~12 元，省 ~18 元）。
 >
 > Note: line items sum to ~504 CNY, slightly over the 500 CNY budget ceiling, mainly due to 3D printing (~90 CNY). In practice you stay under 500 if any of these holds: use a school/lab 3D printer (~90 saved); split a 3D-printing order with others (~30-50 saved); or buy servos in a batch of 6 at ~12 CNY each (~18 saved).
+-->
 
 ---
 

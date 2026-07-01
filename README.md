@@ -1,5 +1,7 @@
 # 项目08：ElectronBot 高级桌面宠物 | Project 08: ElectronBot Advanced Desktop Pet
 
+<!-- 注：价格信息已注释隐藏（查价不准确，仅作参考不严谨）/ Note: price info commented out (inaccurate, not rigorous as reference) -->
+
 > ⭐⭐⭐⭐⭐ **高级项目** — 适合有嵌入式开发经验、愿意挑战高难度硬件+软件全栈集成的学员
 >
 > ⭐⭐⭐⭐⭐ **Advanced** — For experienced students ready to tackle a demanding full-stack integration of custom hardware and software
@@ -73,32 +75,32 @@ After completing this project, you will have:
 
 | 部件 | 规格 | 价格(参考) | 说明 |
 |------|------|-----------|------|
-| 主控 MCU | STM32F405RGT6 | ~30元 | LQFP64 封装, Cortex-M4 |
-| USB PHY | USB3300 | ~12元 | USB 2.0 HS, QFN 封装 |
-| 圆形 LCD | GC9A01, 1.28寸, 240x240 | ~18元 | SPI 接口圆形 TFT |
-| 舵机驱动 MCU | STM32F042F4P6 x6 | ~30元 | 每个关节独立控制, TSSOP20 |
-| 手势传感器 | PAW3660 或等效 | ~8元 | 手势检测 |
-| IMU | MPU6050 | ~6元 | 6轴陀螺仪+加速度计 |
-| USB 摄像头 | 免驱动 USB 摄像头 | ~20元 | PC 端视觉输入 |
-| 电位器 | 3904 单圈电位器 x6 | ~12元 | 舵机角度反馈 |
+| 主控 MCU | STM32F405RGT6 | <!-- ~30元 --> | LQFP64 封装, Cortex-M4 |
+| USB PHY | USB3300 | <!-- ~12元 --> | USB 2.0 HS, QFN 封装 |
+| 圆形 LCD | GC9A01, 1.28寸, 240x240 | <!-- ~18元 --> | SPI 接口圆形 TFT |
+| 舵机驱动 MCU | STM32F042F4P6 x6 | <!-- ~30元 --> | 每个关节独立控制, TSSOP20 |
+| 手势传感器 | PAW3660 或等效 | <!-- ~8元 --> | 手势检测 |
+| IMU | MPU6050 | <!-- ~6元 --> | 6轴陀螺仪+加速度计 |
+| USB 摄像头 | 免驱动 USB 摄像头 | <!-- ~20元 --> | PC 端视觉输入 |
+| 电位器 | 3904 单圈电位器 x6 | <!-- ~12元 --> | 舵机角度反馈 |
 
 ### 舵机与结构件 | Servos & Structural Parts
 
 | 部件 | 规格 | 价格(参考) | 说明 |
 |------|------|-----------|------|
-| 舵机电机 | 370 空心杯电机 x6 | ~60元 | 配减速齿轮箱 |
-| 减速齿轮 | 定制齿轮组 x6 | ~30元 | 舵机减速机构 |
-| 机壳 3D 打印 | HP 尼龙 / SLA 树脂 | ~100元 | 精密打印, 配合公差要求高 |
+| 舵机电机 | 370 空心杯电机 x6 | <!-- ~60元 --> | 配减速齿轮箱 |
+| 减速齿轮 | 定制齿轮组 x6 | <!-- ~30元 --> | 舵机减速机构 |
+| 机壳 3D 打印 | HP 尼龙 / SLA 树脂 | <!-- ~100元 --> | 精密打印, 配合公差要求高 |
 
 ### PCB 与电子元件 | PCB & Electronic Components
 
 | 部件 | 规格 | 价格(参考) | 说明 |
 |------|------|-----------|------|
-| 主控 PCB | 4层板, 0.8mm | ~50元 | 嘉立创打样 |
-| 舵机 PCB | 6块小板 | ~30元 | 每个关节一块 |
-| LDO / DC-DC | 3.3V / 5V 稳压 | ~10元 | 电源管理 |
-| 被动元件 | 电容/电阻/电感等 | ~15元 | 各类 SMD 元件 |
-| 连接器 | FPC / 排针 | ~8元 | 板间连接 |
+| 主控 PCB | 4层板, 0.8mm | <!-- ~50元 --> | 嘉立创打样 |
+| 舵机 PCB | 6块小板 | <!-- ~30元 --> | 每个关节一块 |
+| LDO / DC-DC | 3.3V / 5V 稳压 | <!-- ~10元 --> | 电源管理 |
+| 被动元件 | 电容/电阻/电感等 | <!-- ~15元 --> | 各类 SMD 元件 |
+| 连接器 | FPC / 排针 | <!-- ~8元 --> | 板间连接 |
 
 ### 工具清单 | Tools Required
 
@@ -113,9 +115,9 @@ After completing this project, you will have:
 | 镊子 | 元件夹取 | 防静电细尖镊子 |
 | 螺丝刀套装 | 整机组装 | 精密螺丝刀 |
 
-**总成本约400-500元**（不含电烙铁、热风枪等可复用工具）。3D打印费用是最大单项成本。
+**总成本约<!-- 400-500元 -->**（不含电烙铁、热风枪等可复用工具）。3D打印费用是最大单项成本。
 
-**Total cost approx. 400-500 CNY** (excluding reusable tools like soldering iron and hot air gun). 3D printing is the largest single cost item.
+**Total cost approx. <!-- 400-500 CNY -->** (excluding reusable tools like soldering iron and hot air gun). 3D printing is the largest single cost item.
 
 ---
 
@@ -385,11 +387,11 @@ A: USB HS 是本项目的一个核心技术难点。建议：1) 先学习 USB 2.
 USB High-Speed communication is hard to understand. How should I learn?
 USB HS is a core technical challenge. Suggestions: 1) Study USB 2.0 protocol basics (endpoints, descriptors, transfer types); 2) Read STM32 USB Device Library docs and official examples; 3) Experiment with USB FS (Full-Speed) first, then upgrade to HS. The project code already includes a complete USB communication framework -- the focus is on understanding, not writing from scratch.
 
-**Q: 成本可以降低吗？400-500 元有些贵。**
-A: 最大的成本项是 3D 打印（约100元）。省钱方案：1) 多人共享一次 3D 打印订单分摊运费；2) 使用学校/实验室的 3D 打印机；3) PCB 选择嘉立创 5 元打样活动。如果不做视觉跟随功能，可以省去 USB 摄像头（20元）。核心元件的成本很难进一步压缩，因为每个关节都需要独立的 STM32F042 + 电位器 + 电机。
+**Q: 成本可以降低吗？<!-- 400-500 元 -->有些贵。**
+A: 最大的成本项是 3D 打印（<!-- 约100元 -->）。省钱方案：1) 多人共享一次 3D 打印订单分摊运费；2) 使用学校/实验室的 3D 打印机；3) PCB 选择嘉立创 <!-- 5 元 -->打样活动。如果不做视觉跟随功能，可以省去 USB 摄像头（<!-- 20元 -->）。核心元件的成本很难进一步压缩，因为每个关节都需要独立的 STM32F042 + 电位器 + 电机。
 
-Can the cost be reduced? 400-500 CNY is a bit expensive.
-The biggest cost item is 3D printing (~100 CNY). Money-saving options: 1) Share a 3D printing order with others to split shipping; 2) Use school/lab 3D printers; 3) Use JLCPCB's 5-CNY prototyping deals for PCBs. If you skip visual tracking, you can save on the USB camera (20 CNY). Core component costs are hard to reduce further since each joint needs its own STM32F042 + potentiometer + motor.
+Can the cost be reduced? <!-- 400-500 CNY --> is a bit expensive.
+The biggest cost item is 3D printing (<!-- ~100 CNY -->). Money-saving options: 1) Share a 3D printing order with others to split shipping; 2) Use school/lab 3D printers; 3) Use JLCPCB's <!-- 5-CNY --> prototyping deals for PCBs. If you skip visual tracking, you can save on the USB camera (<!-- 20 CNY -->). Core component costs are hard to reduce further since each joint needs its own STM32F042 + potentiometer + motor.
 
 ---
 
